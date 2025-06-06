@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Quartiles Answers</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: "Helvetica Neue", sans-serif;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin: 50px 0 5px 0;
+            text-align: center;
+        }
+
+        .main-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding-top: 5px;
+            padding-bottom: 5px;
+
+        }
+
+        .tile-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .form-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+            
+        .button {
+            font-size: 1.2em;
+            padding: 10px 30px;       
+            background-color: white;
+            color: black;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 10px 0;
+            text-align: center;
+            width: 175px;             
+        }
+
+        .tile-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 100px);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .tile-grid input {
+            width: 90px;
+            padding: 10px;
+            text-align: center;
+            font-size: 1em;
+            border: 2px solid white;
+            border-radius: 8px;
+            background-color: black;
+            color: white;
+            font-family: "Helvetica Neue", sans-serif;
+            outline: none;
+            box-sizing: border-box;
+        }
+
+        .button {
+            font-size: 1.2em;
+            padding: 10px 20px;
+            font-family: "Helvetica Neue", sans-serif;
+            background-color: white;
+            color: black;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 10px 0;
+        }
+
+        .button:disabled {
+            background-color: gray;
+            cursor: not-allowed;
+        }
+
+        .upload-section {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .hidden-file-input {
+            display: none;
+        }
+
+        .instructions-container{
+            width: 440px; 
+            max-width: 90%; 
+            text-align: justify;
+            font-size: 1em;
+            line-height: 1.5em;
+            margin: 0 auto 10px auto;
+            white-space: pre-line; 
+            font-family: "Helvetica Neue", sans-serif;
+        }
+
+        .solutions-section {
+            text-align: center;
+            margin-top: 20px;
+        }
+          
+        .solutions-section h2 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+          
+        .solutions-section h3 {
+            font-size: 1.2em;
+            margin: 10px 0 5px 0;
+        }
+          
+        .solutions-section p {
+            margin: 3px 0;
+        }
+          
+    </style>
+
+    <script>
+    function checkTilesFilled() {
+        let filled = true;
+        for (let i = 0; i < 20; i++) {
+            const val = document.getElementById(`tile_${i}`).value.trim();
+            if (!val) {
+                filled = false;
+                break;
+            }
+        }
+        document.getElementById('solve-btn').disabled = !filled;
+    }
+
+    function handleFileChange(input) {
+        const fileButton = document.getElementById('file-button');
+        fileButton.textContent = input.files.length ? 'UPLOAD' : 'CHOOSE FILE';
+        if (input.files.length) {
+        input.form.submit();
+        }
+    }
+    </script>
+</head>
+
+<body>
+    <h1>QUARTILES ANSWERS</h1>
+    <div class="instructions-container">
+        <text>
+            Input your quartiles table, or upload a screenshot of the puzzle from your iPhone for an easier experience. Once your image is uploaded, verify the tiles are correct and hit SOLVE.
+
+            Note: This solver generates answers using Scrabble's official word bank, as Apple does not publish theirs. So, please forgive the rare case where Apple chooses a word not present in the bank.
+        </text>
+    </div>    
+    <div class="main-container">
+        <div class="tile-section">
+            <div class="form-container">
+                <form action="/" method="post">
+                    <div class="tile-grid">
+                    {% for i in range(20) %}
+                        <input type="text" id="tile_{{ i }}" name="tile_{{ i }}" value="{{ tiles[i] }}" oninput="checkTilesFilled()">
+                    {% endfor %}
+                    </div>
+                    <button type="submit" id="solve-btn" class="button" {{ 'disabled' if not tiles or '' in tiles }}>SOLVE</button>
+                </form>
+            
+                <form action="/" method="post" enctype="multipart/form-data">
+                    <button type="button" id="file-button" class="button" onclick="document.getElementById('screenshot').click();">CHOOSE FILE</button>
+                    <input type="file" name="screenshot" id="screenshot" accept="image/*" class="hidden-file-input" onchange="handleFileChange(this)">
+                </form>
+            </div>
+
+            {% if solutions %}
+                <div class="solutions-section">
+                    <h2>SOLUTIONS</h2>
+                    {% for count, words in solutions.items() %}
+                        <h3>{{ count }} TILES</h3>
+                        {% for word, breakdown in words %}
+                            <p>{{ word }} ({{ breakdown }})</p>
+                        {% endfor %}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+      </div>
+    </div>  
+</body>
+</html>
