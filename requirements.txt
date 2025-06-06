@@ -1,3 +1,4 @@
 Flask
 easyocr
 opencv-python
+gunicorn
