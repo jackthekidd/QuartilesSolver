@@ -15,7 +15,7 @@ Web interface with Flask.
 
 ---
 
-## Installation
+## Installation (If not using website)
 
 1. **Clone this repository**:
    ```bash
