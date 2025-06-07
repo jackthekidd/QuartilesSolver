@@ -118,6 +118,10 @@
             font-family: "Helvetica Neue", sans-serif;
         }
 
+        .instructions-container a{
+            margin-top: 0px
+        }
+
         .solutions-section {
             text-align: center;
             margin-top: 20px;
@@ -166,9 +170,11 @@
     <h1>QUARTILES ANSWERS</h1>
     <div class="instructions-container">
         <text>
-            Input your quartiles table, or upload a screenshot of the puzzle from your iPhone for an easier experience. Once your image is uploaded, verify the tiles are correct and hit SOLVE.
-
+            Input your puzzle's tiles and hit solve to generate a list of all the solutions. 
+            
             Note: This solver generates answers using Scrabble's official word bank, as Apple does not publish theirs. So, please forgive the rare case where Apple chooses a word not present in the bank.
+            If you want to download a version that allows you to upload a screenshot of the puzzle and autosolves it, find out how <a href="https://github.com/YOUR_USERNAME/QuartilesSolver" target="_blank" style="color: white; text-decoration: underline;"> here.
+            </a>
         </text>
     </div>    
     <div class="main-container">
@@ -181,11 +187,6 @@
                     {% endfor %}
                     </div>
                     <button type="submit" id="solve-btn" class="button" {{ 'disabled' if not tiles or '' in tiles }}>SOLVE</button>
-                </form>
-            
-                <form action="/" method="post" enctype="multipart/form-data">
-                    <button type="button" id="file-button" class="button" onclick="document.getElementById('screenshot').click();">CHOOSE FILE</button>
-                    <input type="file" name="screenshot" id="screenshot" accept="image/*" class="hidden-file-input" onchange="handleFileChange(this)">
                 </form>
             </div>
 

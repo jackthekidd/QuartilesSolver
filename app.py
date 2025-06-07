@@ -1,5 +1,4 @@
 from flask import Flask, request, render_template, redirect, url_for
-from vision import process_screenshot
 from solve import solve_puzzle  
 
 app = Flask(__name__)
@@ -11,10 +10,7 @@ def index():
 
     if request.method == 'POST':
         if 'screenshot' in request.files:
-            screenshot = request.files['screenshot']
-            screenshot_path = 'screenshot.png'
-            screenshot.save(screenshot_path)
-            tiles = process_screenshot(screenshot_path)  # returns a list of strings
+            pass
         else:
             for i in range(20):
                 tiles[i] = request.form.get(f'tile_{i}', '').strip().lower()
